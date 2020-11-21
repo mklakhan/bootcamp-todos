@@ -5,6 +5,8 @@ var todoCountSpan = document.querySelector("#todo-count");
 
 var todos = ["Learn HTML", "Learn CSS", "Learn JavaScript"];
 
+renderToDos ();
+
 function renderToDos() {
 
     // clear existing todos
@@ -15,7 +17,12 @@ function renderToDos() {
         var li = document.createElement('li')
         //add todo text to li
         li.innerText = todos[i]
-
+        //add data-index attribute
+        li.setAttribute('data-index', i)
+        //create button
+        var button = document.createElement('button')
+        button.innerText = "Complete"
+        li.appendChild(button)
         // append li to todoList
         todoList.appendChild(li)
     }
@@ -37,11 +44,23 @@ function addTodo(event) {
     todoInput.value = null 
     renderToDos()
     
- 
+    
 
 }
 
-todoForm.addEventListener('submit', addTodo)
+function removeToDo(event) {
+    var target = event.target
+    if (event.target.matches('button')) {
+        //find index LI
+        var index = parseInt(target.parentNode.getAttribute('data-index'))
+        //remove the todo from todos array
+        todos.splice(index, 1)
+        //re-render todos
+        renderToDos()
+    }
+}
 
+todoForm.addEventListener('submit', addTodo)
+todoList.addEventListener('click', removeTodo)
 
 renderToDos()
